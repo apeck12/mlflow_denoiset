@@ -52,7 +52,7 @@ Copy any Python modules that are used to define the model architecture and run a
 Copy the PyTorch model weights file (usually `model.pt`) into `model_data`, along with any other auxiliary files that may be needed to help process the inputs to or outputs from the model. If you are also going to include model's _training_ code in the project directory, you can simply have it save the model weights directly to the `model_code` directory (the example [`train.py`](./train.py) script does this).
 
 
-### 2. Create `requirements.txt`
+### 3. Create `requirements.txt`
 
 This file lists the Python dependencies needed to load and execute the PyTorch model.
 
@@ -64,7 +64,7 @@ pandas==2.2.3
 
 It is best to use concrete versions to avoid dependency issues.
 
-### 3. Create `model_code/mlflow_model.py`
+### 4. Create `model_code/mlflow_model.py`
 
 This file contains the code for loading and using your PyTorch model. See [`mlflow_model.py`](./mlflow_model.py) for a full example.
 
@@ -73,7 +73,7 @@ This file contains the code for loading and using your PyTorch model. See [`mlfl
 * You may optionally define any other methods you need in this class. A good pattern is to define `_preprocess()` and `_postprocess()`  methods, if the inputs and outputs of the PyTorch model will differ from the inputs and outputs that that MLflow model will expect and product, respectively. You will need to explicitly call this methods from `predict()`, as needed.
 
 
-### 4. Create `package.py` 
+### 5. Create `package.py` 
 
 This script brings everything together and saves the MLflow model. The only requirement is that calls `mlflow.pync.save_model()`, which typically looks like:
 
@@ -121,7 +121,7 @@ After this step, your directory should like this:
 ```
 
 
-### 5. Run the model packaging script
+### 6. Run the model packaging script
 
 ```
 python package.py
@@ -148,7 +148,7 @@ mlflow_model/
 └── serving_input_example.json
 ```
 
-### 6. Load & Test Your MLflow Model
+### 7. Load & Test Your MLflow Model
 
 Load the saved MLflow model and perform inference:
 
