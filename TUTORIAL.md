@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-# open-source-starter
-starter template for CZI open source projects
-
-## Code of Conduct
-
-This project adheres to the Contributor Covenant [code of conduct](https://github.com/chanzuckerberg/.github/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [opensource@chanzuckerberg.com](mailto:opensource@chanzuckerberg.com).
-
-## Reporting Security Issues
-
-If you believe you have found a security issue, please responsibly disclose by contacting us at [security@chanzuckerberg.com](mailto:security@chanzuckerberg.com).
-||||||| (empty tree)
-=======
 # MLflow Model Packaging Tutorial
 
 This tutorial describes how to package a model as an MLflow model, with explanations and code examples for a simple PyTorch-based model.
@@ -161,4 +148,3 @@ Debug `model_code/mlflow_model.py`, and `package.py` as needed.
 
 A full example for testing the MLflow model prediction is in [predict.py](./predict.py). Note this example provides two methods of using the MLflow model, one for running the model in the current virtual environment, and one for the running the model in a separate, isolated virtual environment. In the latter case, MLflow will create a temporary virtual environment, install all the required dependencies, and invoke the model by passing it a file containing a seralized version of the input data.
 
->>>>>>> 17f825f (initial version)
