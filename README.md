@@ -1,4 +1,4 @@
-# VCP MlFlow Model Packaging Tutorial
+# VCP MLflow Model Packaging Tutorial
 
 This repository contains a tutorial with example code that demonstrate how to package a PyTorch model into an MLflow model package.
 
