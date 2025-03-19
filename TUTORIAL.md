@@ -1,6 +1,6 @@
 # MLflow Model Packaging Tutorial
 
-This tutorial describes how to package a model as an MLflow model, with explanations and code examples for a simple PyTorch-based model.
+This tutorial describes how to package a ML model as an MLflow model, with explanations and code examples for a simple PyTorch-based model.
 
 It does not cover how to train a model using a ML framework, such as PyTorch, and assumes a model has already been trained and saved to the local filesystem.
 
@@ -12,14 +12,16 @@ MLflow provides a standard packaging format for ML models. MLflow model packages
 
 The key steps to packaging an MLflow model are:
 
-1. **Define an MLflow Model Class:** You will create a class that inherits from the `mlflow.pyfunc.PythonModel` class. This class will encapsulate all the logic needed to load your PyTorch model and invoke a prediction operation using the underlying framework model.  
+1. **Define an MLflow Model Class:** You will create a class that inherits from the `mlflow.pyfunc.PythonModel` class. Your class will encapsulate all the logic needed to load your PyTorch model and invoke a prediction operation using the underlying framework model.  
 2. **Specify Dependencies:** You will create a `requirements.txt` file to list all the Python packages your model needs (like `torch`, 
 `numpy`, etc.). MLflow will use this to create a reproducible Python environment when the model is invoked.
 3. **Define a script to create the MLflow model package:** You will create a `package.py` Python script that call MLflow's `mlflow.pyfunc.save_model()` function to package all required model code, data, and metadata into a directory structure that follows MLflow's packaging format. This directory will constitute the "MLflow model".
 
 ## Step-by-Step Instructions with Example Code
 
-These steps assume you have already trained a model and saved it using your ML framework of choice. For example, if using PyTorch, you will have a `model.pt` file. For this example, we will also assume there is an auxiliary file, `labels.txt` that is needed to perform inference.
+These steps assume you have already trained a model and saved it using your ML framework of choice. For example, if using PyTorch, you will have a `model.pt` file.  For the purposes of this tutorial, an example `model.pt` file can be created by running [`train.py`](./train.py). 
+
+For this example, we will also assume there is an auxiliary file, `labels.txt` that is needed to perform a transformation on the output after inference.  
 
 ### 1. Setup
 
@@ -47,10 +49,10 @@ mkdir model_data
 
 Copy any Python modules that are used to define the model architecture and run a forward pass on the PyTorch model into `model_code`. See [`model_code/pytorch_model.py`](./model_code/pytorch_model.py) as an example.
 
-Copy the PyTorch model weights file (usually `model.pt`) into `model_data`, along with any other auxiliary files that may be needed to help process the inputs to or outputs from the model. If you are also going to include model's _training_ code in the project directory, you can simply have it save the model weights directly to the `model_code` directory. An example of this is provided in [`train.py`](./train.py). You can run this script to create a `model_data/model.pt` PyTorch model file.
+Copy the PyTorch model weights file (usually `model.pt`) into `model_data`, along with any other auxiliary files that may be needed to help process the inputs to or outputs from the model. If you are also going to include model's _training_ code in the project directory, you can simply have it save the model weights directly to the `model_code` directory (the example [`train.py`](./train.py) script does this).
 
 
-### 2. Create `requirements.txt`
+### 3. Create `requirements.txt`
 
 This file lists the Python dependencies needed to load and execute the PyTorch model.
 
@@ -62,7 +64,7 @@ pandas==2.2.3
 
 It is best to use concrete versions to avoid dependency issues.
 
-### 3. Create `model_code/mlflow_model.py`
+### 4. Create `model_code/mlflow_model.py`
 
 This file contains the code for loading and using your PyTorch model. See [`mlflow_model.py`](./mlflow_model.py) for a full example.
 
@@ -71,7 +73,7 @@ This file contains the code for loading and using your PyTorch model. See [`mlfl
 * You may optionally define any other methods you need in this class. A good pattern is to define `_preprocess()` and `_postprocess()`  methods, if the inputs and outputs of the PyTorch model will differ from the inputs and outputs that that MLflow model will expect and product, respectively. You will need to explicitly call this methods from `predict()`, as needed.
 
 
-### 4. Create `package.py` 
+### 5. Create `package.py` 
 
 This script brings everything together and saves the MLflow model. The only requirement is that calls `mlflow.pync.save_model()`, which typically looks like:
 
@@ -104,8 +106,22 @@ MLflow documentation for the `save_model()` method is available [here](https://w
 
 Note that MLflow provides both `save_model()` and `log_model()` methods. The `log_model()` method stores the model in an "experiment tracking" server, which is not assumed to be available for this tutorial. So instead, the `save_model()` method is used, which simply saves the model to the local filesystem.
 
+After this step, your directory should like this:
 
-### 5. Run the model packaging script
+```
+.
+├── model_code
+│   ├── mlflow_model.py
+│   └── pytorch_model.py
+├── model_data
+│   ├── labels.txt
+│   └── model.pt
+├── package.py
+└── requirements.txt
+```
+
+
+### 6. Run the model packaging script
 
 ```
 python package.py
@@ -132,7 +148,7 @@ mlflow_model/
 └── serving_input_example.json
 ```
 
-### 6. Load & Test Your MLflow Model
+### 7. Load & Test Your MLflow Model
 
 Load the saved MLflow model and perform inference:
 
