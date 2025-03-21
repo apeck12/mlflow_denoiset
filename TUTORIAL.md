@@ -41,7 +41,7 @@ git clone https://github.com/atolopko-czi/mlflow-example.git my-mflow-model
 cd my-mlflow-model
 ```
 
-3. If you want to maintain MLflow model packaging functionality in a new, separate repository from the model repository, and not using this tutorial repo as a starting point, create a new project directory:
+3. If you want to maintain MLflow model packaging functionality in a new, separate repository from the model repository, and are not using this tutorial repo as a starting point, create a new project directory:
 ```sh
 # Create a new directory and navigate into it
 mkdir my-mlflow-model && cd my-mlflow-model
