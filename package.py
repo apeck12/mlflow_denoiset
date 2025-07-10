@@ -22,8 +22,8 @@ def main():
     # but you can also specify it explicitly, if desired. For full details on specifying MLflow model signatures,
     # see https://mlflow.org/docs/latest/model/signatures/#intro-model-signature-input-example
     # Here, as an example, we define the input and output schema explicitly
-    input_schema = Schema([TensorSpec(np.dtype(np.float32), (300,300,200))])
-    output_schema = Schema([TensorSpec(np.dtype(np.float32), (300,300,200))])
+    input_schema = Schema([TensorSpec(np.dtype(np.float32), shape=[-1,-1,-1])])
+    output_schema = Schema([TensorSpec(np.dtype(np.float32), shape=[-1,-1,-1])])
     signature = ModelSignature(inputs=input_schema, outputs=output_schema)
 
     # Create a dictionary of artifacts
